@@ -12,6 +12,7 @@ import com.gestaoBancaria.api.transacao.strategy.DebitoStrategy;
 import com.gestaoBancaria.api.transacao.strategy.FormaPagamentoStrategy;
 import com.gestaoBancaria.api.transacao.strategy.PixStrategy;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class TransacaoService {
 
@@ -49,17 +51,26 @@ public class TransacaoService {
 
     @Transactional
     public Conta realizarTransacao(TransacaoRequestDTO dto) {
+        log.debug("Processando transação: conta={}, valor={}, formaPagamento={}",
+                dto.getNumero_conta(), dto.getValor(), dto.getFormaPagamento());
         Conta conta = contaRepository.findByNumeroConta(dto.getNumero_conta())
-                .orElseThrow(() -> new SaldoInsuficienteException("Conta não encontrada."));
+                .orElseThrow(() -> {
+                    log.warn("Conta {} não encontrada.", dto.getNumero_conta());
+                    return new SaldoInsuficienteException("Conta não encontrada.");
+                });
 
         FormaPagamentoStrategy strategy = strategyMap.get(dto.getFormaPagamento());
         if (strategy == null) {
+            log.error("Forma de pagamento inválida: {}", dto.getFormaPagamento());
             throw new SaldoInsuficienteException("Forma de pagamento inválida.");
         }
 
         BigDecimal valorComTaxa = strategy.calcularValorFinal(dto.getValor());
+        log.debug("Valor com taxa calculado: {}", valorComTaxa);
 
         if (conta.getSaldo().compareTo(valorComTaxa) < 0) {
+            log.warn("Saldo insuficiente na conta {}. Saldo atual: {}, necessário: {}",
+                    conta.getNumeroConta(), conta.getSaldo(), valorComTaxa);
             throw new SaldoInsuficienteException("Saldo insuficiente.");
         }
 
@@ -72,6 +83,8 @@ public class TransacaoService {
         transacao.setConta(conta);
         transacaoRepository.save(transacao);
 
+        log.info("Transação concluída: conta={}, novo saldo={}, tipo={}",
+                conta.getNumeroConta(), conta.getSaldo(), dto.getFormaPagamento());
         return conta;
     }
 }

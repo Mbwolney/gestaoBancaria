@@ -4,6 +4,7 @@ import com.gestaoBancaria.api.conta.dto.ContaResponseDTO;
 import com.gestaoBancaria.api.transacao.dto.TransacaoRequestDTO;
 import com.gestaoBancaria.api.conta.entity.Conta;
 import com.gestaoBancaria.api.transacao.service.TransacaoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/transacao")
 public class TransacaoController {
@@ -23,7 +25,11 @@ public class TransacaoController {
 
     @PostMapping
     public ResponseEntity<ContaResponseDTO> transacionar(@RequestBody TransacaoRequestDTO dto) {
+        log.debug("Iniciando transação do tipo {} na conta {} com valor {}",
+                dto.getFormaPagamento(), dto.getNumero_conta(), dto.getValor());
         Conta contaAtualizada = transacaoService.realizarTransacao(dto);
+        log.info("Transação concluída: conta {} novo saldo {}",
+                contaAtualizada.getNumeroConta(), contaAtualizada.getSaldo());
         return ResponseEntity.status(HttpStatus.CREATED).body(new ContaResponseDTO(contaAtualizada));
     }
 
