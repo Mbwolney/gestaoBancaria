@@ -1,7 +1,6 @@
 # Sistema de Gestão Bancária
 
 [![Build Status](https://img.shields.io/badge/Build-Success-green)](https://travis-ci.com)
-[![SonarCloud Status](https://sonarcloud.io/api/project_badges/measure?project=example&metric=alert_status)](https://sonarcloud.io)
 
 ## Escopo, Pré-requisitos e Objetivo
 
