@@ -1,6 +1,7 @@
-package com.gestaoBancaria.api.model;
+package com.gestaoBancaria.api.transacao.entity;
 
-import com.gestaoBancaria.api.enums.FormaPagamento;
+import com.gestaoBancaria.api.conta.entity.Conta;
+import com.gestaoBancaria.api.transacao.enums.FormaPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class Transacao {
     private FormaPagamento formaPagamento;
 
     @ManyToOne
-    @JoinColumn(name = "conta", nullable = false)
+    @JoinColumn(name = "numero_conta", nullable = false)
     private Conta conta;
 
     @Column(name = "valor", nullable = false)

@@ -1,9 +1,9 @@
-package com.gestaoBancaria.api.controllers;
+package com.gestaoBancaria.api.transacao.controller;
 
-import com.gestaoBancaria.api.dto.ContaResponseDTO;
-import com.gestaoBancaria.api.dto.TransacaoRequestDTO;
-import com.gestaoBancaria.api.model.Conta;
-import com.gestaoBancaria.api.service.TransacaoService;
+import com.gestaoBancaria.api.conta.dto.ContaResponseDTO;
+import com.gestaoBancaria.api.transacao.dto.TransacaoRequestDTO;
+import com.gestaoBancaria.api.conta.entity.Conta;
+import com.gestaoBancaria.api.transacao.service.TransacaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

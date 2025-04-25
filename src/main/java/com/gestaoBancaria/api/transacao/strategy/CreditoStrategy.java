@@ -1,4 +1,4 @@
-package com.gestaoBancaria.api.strategy;
+package com.gestaoBancaria.api.transacao.strategy;
 
 import org.springframework.stereotype.Component;
 

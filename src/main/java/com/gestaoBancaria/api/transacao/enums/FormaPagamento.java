@@ -1,4 +1,4 @@
-package com.gestaoBancaria.api.enums;
+package com.gestaoBancaria.api.transacao.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

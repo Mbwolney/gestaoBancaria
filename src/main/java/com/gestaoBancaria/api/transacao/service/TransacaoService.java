@@ -1,16 +1,16 @@
-package com.gestaoBancaria.api.service;
+package com.gestaoBancaria.api.transacao.service;
 
-import com.gestaoBancaria.api.dto.TransacaoRequestDTO;
-import com.gestaoBancaria.api.enums.FormaPagamento;
-import com.gestaoBancaria.api.exception.SaldoInsuficienteException;
-import com.gestaoBancaria.api.model.Conta;
-import com.gestaoBancaria.api.model.Transacao;
-import com.gestaoBancaria.api.repositories.ContaRepository;
-import com.gestaoBancaria.api.repositories.TransacaoRepository;
-import com.gestaoBancaria.api.strategy.CreditoStrategy;
-import com.gestaoBancaria.api.strategy.DebitoStrategy;
-import com.gestaoBancaria.api.strategy.FormaPagamentoStrategy;
-import com.gestaoBancaria.api.strategy.PixStrategy;
+import com.gestaoBancaria.api.transacao.dto.TransacaoRequestDTO;
+import com.gestaoBancaria.api.transacao.enums.FormaPagamento;
+import com.gestaoBancaria.api.transacao.expection.SaldoInsuficienteException;
+import com.gestaoBancaria.api.conta.entity.Conta;
+import com.gestaoBancaria.api.transacao.entity.Transacao;
+import com.gestaoBancaria.api.conta.repository.ContaRepository;
+import com.gestaoBancaria.api.transacao.repository.TransacaoRepository;
+import com.gestaoBancaria.api.transacao.strategy.CreditoStrategy;
+import com.gestaoBancaria.api.transacao.strategy.DebitoStrategy;
+import com.gestaoBancaria.api.transacao.strategy.FormaPagamentoStrategy;
+import com.gestaoBancaria.api.transacao.strategy.PixStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,12 +49,12 @@ public class TransacaoService {
 
     @Transactional
     public Conta realizarTransacao(TransacaoRequestDTO dto) {
-        Conta conta = contaRepository.findByNumeroConta(dto.getNumeroConta())
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada."));
+        Conta conta = contaRepository.findByNumeroConta(dto.getNumero_conta())
+                .orElseThrow(() -> new SaldoInsuficienteException("Conta não encontrada."));
 
         FormaPagamentoStrategy strategy = strategyMap.get(dto.getFormaPagamento());
         if (strategy == null) {
-            throw new RuntimeException("Forma de pagamento inválida.");
+            throw new SaldoInsuficienteException("Forma de pagamento inválida.");
         }
 
         BigDecimal valorComTaxa = strategy.calcularValorFinal(dto.getValor());

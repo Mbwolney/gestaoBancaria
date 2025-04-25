@@ -1,9 +1,9 @@
-package com.gestaoBancaria.api.controllers;
+package com.gestaoBancaria.api.conta.controller;
 
-import com.gestaoBancaria.api.dto.ContaRequestDTO;
-import com.gestaoBancaria.api.dto.ContaResponseDTO;
-import com.gestaoBancaria.api.model.Conta;
-import com.gestaoBancaria.api.service.ContaService;
+import com.gestaoBancaria.api.conta.dto.ContaRequestDTO;
+import com.gestaoBancaria.api.conta.dto.ContaResponseDTO;
+import com.gestaoBancaria.api.conta.entity.Conta;
+import com.gestaoBancaria.api.conta.service.ContaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

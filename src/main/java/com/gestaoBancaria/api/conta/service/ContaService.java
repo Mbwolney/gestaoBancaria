@@ -1,9 +1,9 @@
-package com.gestaoBancaria.api.service;
+package com.gestaoBancaria.api.conta.service;
 
-import com.gestaoBancaria.api.dto.ContaRequestDTO;
-import com.gestaoBancaria.api.exception.SaldoInsuficienteException;
-import com.gestaoBancaria.api.model.Conta;
-import com.gestaoBancaria.api.repositories.ContaRepository;
+import com.gestaoBancaria.api.conta.dto.ContaRequestDTO;
+import com.gestaoBancaria.api.conta.expection.ContaNaoEncontradaException;
+import com.gestaoBancaria.api.conta.entity.Conta;
+import com.gestaoBancaria.api.conta.repository.ContaRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,11 +19,11 @@ public class ContaService {
 
     public Conta criarConta(ContaRequestDTO dto) {
         if (contaRepository.existsByNumeroConta(dto.getNumeroConta())) {
-            throw new RuntimeException("Conta já existente.");
+            throw new ContaNaoEncontradaException("Conta já existente.");
         }
 
         if (dto.getSaldo().compareTo(BigDecimal.ZERO) < 0) {
-            throw new SaldoInsuficienteException("O saldo inicial não pode ser negativo.");
+            throw new ContaNaoEncontradaException("O saldo inicial não pode ser negativo.");
         }
 
         Conta conta = new Conta();
@@ -35,7 +35,7 @@ public class ContaService {
 
     public Conta buscarConta(Long numeroConta) {
         return contaRepository.findByNumeroConta(numeroConta)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada."));
+                .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada."));
     }
 
 }

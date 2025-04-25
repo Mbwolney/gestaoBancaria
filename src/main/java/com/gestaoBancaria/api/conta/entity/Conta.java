@@ -1,4 +1,4 @@
-package com.gestaoBancaria.api.model;
+package com.gestaoBancaria.api.conta.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

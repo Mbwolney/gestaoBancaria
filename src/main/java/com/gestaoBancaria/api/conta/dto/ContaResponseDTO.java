@@ -1,6 +1,6 @@
-package com.gestaoBancaria.api.dto;
+package com.gestaoBancaria.api.conta.dto;
 
-import com.gestaoBancaria.api.model.Conta;
+import com.gestaoBancaria.api.conta.entity.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
