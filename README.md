@@ -21,8 +21,7 @@ Para rodar o projeto localmente, siga os passos abaixo.
 ### Clonando o Repositório
 
 ```bash
-git clone https://github.com/username/gestao-bancaria.git
-cd gestao-bancaria
+git clone [https://github.com/username/gestao-bancaria.git](https://github.com/Mbwolney/gestaoBancaria.git)
 ```
 
 ## Pré-requisitos
